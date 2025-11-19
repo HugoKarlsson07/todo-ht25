@@ -1,6 +1,6 @@
 require 'sqlite3'
 
-db = SQLite3::Database.new("db/todos.db")
+db = SQLite3::Database.new("todos.db")
 
 
 def seed!(db)
