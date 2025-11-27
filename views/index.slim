@@ -1,1 +1,21 @@
+h1 Todos
 
+section
+    -@data_todos.each do |todo|
+        article 
+            h2 = todo["name"] 
+            p = todo["description"]
+            form action="/todos/#{todo["id"]}/delete" method="post"
+                input type="submit" value="🔥delete"
+                
+            form action="/todos/#{todo["id"]}/update" method="post"
+                input type="text" name="name" value="#{todo["name"]}"
+                input type="text" name="description" value="#{todo["description"]}"
+                input type="submit" value="🍎Uppdatera🍎"
+            hr
+
+section 
+    form action="/todo" method="post"
+        input type="text" name="new_todo" placeholder="Namnge todo"
+        input type="text" name="description" placeholder="Vad är Todo?"
+        input type="submit" value="Lägg till"
