@@ -30,10 +30,38 @@ post('/todos/:id/update') do
   description = params[:description]
   name = params[:name]
 
-  db = SQLite3::Database.new("db/todoss.db")
+  db = SQLite3::Database.new("db/todos.db")
   db.execute("UPDATE todos SET name=?,description=? WHERE id=?",[name,description,id])
 
   redirect('/todos')
+end
+
+post('/todos/:id/klar') do
+  id = params[:id].to_i
+  status = 1
+  db = SQLite3::Database.new("db/todos.db")
+  db.execute("UPDATE todos SET status=? WHERE id=?",[status,id])
+  redirect('/todos')
+end
+
+post('/todos/:id/ice') do
+  id = params[:id].to_i
+  status = 0
+  db = SQLite3::Database.new("db/todos.db")
+  db.execute("UPDATE todos SET status=? WHERE id=?",[status,id])
+  redirect('/todos')
+end
+
+
+get('/todos/:id/edit') do
+  db = SQLite3::Database.new("db/todos.db")
+  db.results_as_hash = true
+  id = params[:id].to_i
+  
+  
+  @special_todo = db.execute("SELECT * FROM todos WHERE id = ?",id).first
+  p @special_todo
+  slim(:edit)
 end
 
 
@@ -44,9 +72,11 @@ get('/todos') do
     #[{},{},{}] önskar vi oss
     db.results_as_hash = true
 
+    @data_todos_status_true = db.execute("SELECT * FROM todos WHERE status = true")
+    @data_todos_status_false = db.execute("SELECT * FROM todos WHERE status = false")
+
     @data_todos = db.execute("SELECT * FROM todos")
     id = params[:id].to_i
-    @special_todo = db.execute("SELECT * FROM todos WHERE id = ?",id).first
     slim(:index)
 end
 

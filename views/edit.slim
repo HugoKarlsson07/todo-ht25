@@ -1,6 +1,6 @@
-H1 Uppdatera #{@special_todd["name"]}
+H1 Uppdatera #{@special_todo["name"]}
 
-form action="/todos/#{todo["id"]}/update" method="post"
+form action="/todos/#{@special_todo["id"]}/update" method="post"
     input type="text" name="name" value="#{@special_todo["name"]}"
     input type="text" name="description" value="#{@special_todo["description"]}"
     input type="submit" value="🍎Uppdatera🍎"
