@@ -42,7 +42,7 @@ post('/todos/:id/klar') do
   db = SQLite3::Database.new("db/todos.db")
   db.execute("UPDATE todos SET status=? WHERE id=?",[status,id])
   redirect('/todos')
-end
+end  
 
 post('/todos/:id/ice') do
   id = params[:id].to_i
@@ -72,10 +72,17 @@ get('/todos') do
     #[{},{},{}] önskar vi oss
     db.results_as_hash = true
 
+    db_categories = SQLite3::Database.new("db/categories.db")
+    db_categories.results_as_hash = true
+
+    @data_categories = db_categories.execute("SELECT * FROM categories")
+
+
     @data_todos_status_true = db.execute("SELECT * FROM todos WHERE status = true")
     @data_todos_status_false = db.execute("SELECT * FROM todos WHERE status = false")
 
-    @data_todos = db.execute("SELECT * FROM todos")
+    @data_todos = db.execute("SELECT * FROM todos INNER JOIN categories ON todos.id_category = categories.id")
+    
     id = params[:id].to_i
     slim(:index)
 end

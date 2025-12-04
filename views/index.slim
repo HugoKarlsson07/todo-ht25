@@ -1,11 +1,20 @@
 h1 Todos
 
+- @todos.each do |todo|
+    li
+      strong = todo["name"]
+      |  – 
+      span Kategori: #{todo["category_name"] || "Ingen kategori"}
+
+
+
 section 
     h1 Färdiga todos 
     -@data_todos_status_true.each do |todo|
         article 
-                h2 = todo["name"] 
+                strong = todo["name"] |  –span Kategori: #{todo["category_name"] || "Ingen kategori"}
                 p = todo["description"]
+
                 a href="/todos/#{todo["id"]}/edit" Ändra
                 form action="/todos/#{todo["id"]}/delete" method="post"
                     input type="submit" value="🔥delete"
