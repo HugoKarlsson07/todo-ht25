@@ -72,17 +72,11 @@ get('/todos') do
     #[{},{},{}] önskar vi oss
     db.results_as_hash = true
 
-    db_categories = SQLite3::Database.new("db/categories.db")
-    db_categories.results_as_hash = true
-
-    @data_categories = db_categories.execute("SELECT * FROM categories")
+    @data_categories = db.execute("SELECT * FROM categories")
 
 
-    @data_todos_status_true = db.execute("SELECT * FROM todos WHERE status = true")
-    @data_todos_status_false = db.execute("SELECT * FROM todos WHERE status = false")
-
-    @data_todos = db.execute("SELECT * FROM todos INNER JOIN categories ON todos.id_category = categories.id")
-    
+    @data_todos_status_true = db.execute("SELECT todos.*, category_name FROM todos LEFT JOIN categories ON todos.id_category = categories.id WHERE todos.status = true;")
+    @data_todos_status_false = db.execute("SELECT todos.*, category_name FROM todos LEFT JOIN categories ON todos.id_category = categories.id WHERE todos.status = false;")
     id = params[:id].to_i
     slim(:index)
 end

@@ -23,22 +23,22 @@ def create_tables(db)
   db.execute('CREATE TABLE todos (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               name TEXT NOT NULL, 
-              description TEXT, status BOOL DEFAULT false, id_category INTEGER,
+              description TEXT, status BOOL DEFAULT false, 
+              id_category INTEGER,
               FOREIGN KEY (id_category) REFERENCES categories(id))')
-  db.execute('CREATE TABLE categories (
-              id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)')
+  db.execute('CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category_name TEXT NOT NULL)')
 end
 
 def populate_tables(db)
   # Lägg till todos
-  db.execute('INSERT INTO todos (name, description, status) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko",false)')
-  db.execute('INSERT INTO todos (name, description, status) VALUES ("Köp julgran", "En rödgran", false)')
-  db.execute('INSERT INTO todos (name, description, status) VALUES ("Pynta gran", "Glöm inte lamporna i granen och tomten",false)')
+  db.execute('INSERT INTO todos (name, description, status, id_category) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko",false,4)')
+  db.execute('INSERT INTO todos (name, description, status, id_category) VALUES ("Köp julgran", "En rödgran", false,4)')
+  db.execute('INSERT INTO todos (name, description, status, id_category) VALUES ("Pynta gran", "Glöm inte lamporna i granen och tomten",false,4)')
   # Lägg till kategorier
-  db.execute('INSERT INTO categories (name) VALUES ("köpa")')
-  db.execute('INSERT INTO categories (name) VALUES ("Om tid finns")')
-  db.execute('INSERT INTO categories (name) VALUES ("Publik")')
-  db.execute('INSERT INTO categories (name) VALUES ("private")')
+  db.execute('INSERT INTO categories (category_name) VALUES ("köpa")')
+  db.execute('INSERT INTO categories (category_name) VALUES ("Om tid finns")')
+  db.execute('INSERT INTO categories (category_name) VALUES ("Publik")')
+  db.execute('INSERT INTO categories (category_name) VALUES ("private")')
 end
 
 seed!(db)
