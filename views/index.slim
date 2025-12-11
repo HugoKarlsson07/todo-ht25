@@ -6,7 +6,7 @@ section
     -@data_todos_status_true.each do |todo|
         article 
                 h2 = todo["name"] 
-                h2 = Kategori todo["category_name"]
+                p = "Kategori: #{todo["category_name"]}"
                 p = todo["description"]
 
                 a href="/todos/#{todo["id"]}/edit" Ändra
@@ -20,6 +20,7 @@ section
     -@data_todos_status_false.each do |todo|
         article 
                 h2 = todo["name"] 
+                p = "Kategori: #{todo["category_name"]}"
                 p = todo["description"] 
                 a href="/todos/#{todo["id"]}/edit" Ändra
                 form action="/todos/#{todo["id"]}/delete" method="post"
@@ -36,4 +37,8 @@ section
     form action="/todo" method="post"
         input type="text" name="new_todo" placeholder="Namnge todo"
         input type="text" name="description" placeholder="Vad är Todo?"
+        select name="category_name"
+            option value="" disabled="disabled" selected="selected" Välj kategori
+            -@data_categories.each do |category|
+                option value="#{category["id"]}" = category["category_name"]
         input type="submit" value="Lägg till"

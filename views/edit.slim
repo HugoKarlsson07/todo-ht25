@@ -3,5 +3,11 @@ H1 Uppdatera #{@special_todo["name"]}
 form action="/todos/#{@special_todo["id"]}/update" method="post"
     input type="text" name="name" value="#{@special_todo["name"]}"
     input type="text" name="description" value="#{@special_todo["description"]}"
+    select name="category_name"
+        -@data_categories.each do |category|
+            -if category["id"] == @special_todo["id_category"]
+                option value="#{category["id"]}" selected="selected" = category["category_name"]
+            -else
+                option value="#{category["id"]}" = category["category_name"]
     input type="submit" value="🍎Uppdatera🍎"
 hr

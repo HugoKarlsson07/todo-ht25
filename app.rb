@@ -19,8 +19,11 @@ end
 post('/todo') do
   new_todo = params[:new_todo] # Hämta datan ifrån formuläret
   description = params[:description].to_s 
+  category_name = params[:category_name]
+
+
   db = SQLite3::Database.new('db/todos.db') # koppling till databasen
-  db.execute("INSERT INTO todos (name, description) VALUES (?,?)",[new_todo,description])
+  db.execute("INSERT INTO todos (name, description, id_category) VALUES (?,?,?)",[new_todo,description,category_name])
 
   redirect('/todos') # Hoppa till routen som visar upp alla todos
 end
@@ -29,10 +32,11 @@ post('/todos/:id/update') do
   id = params[:id].to_i
   description = params[:description]
   name = params[:name]
+  category_name = params[:category_name]
 
   db = SQLite3::Database.new("db/todos.db")
-  db.execute("UPDATE todos SET name=?,description=? WHERE id=?",[name,description,id])
-
+  db.execute("UPDATE todos SET name=?,description=?,id_category=? WHERE id=?",[name,description,category_name,id])
+   
   redirect('/todos')
 end
 
@@ -60,6 +64,7 @@ get('/todos/:id/edit') do
   
   
   @special_todo = db.execute("SELECT * FROM todos WHERE id = ?",id).first
+  @data_categories = db.execute("SELECT * FROM categories")
   p @special_todo
   slim(:edit)
 end
