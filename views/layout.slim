@@ -6,4 +6,11 @@ html lang="en"
     link rel="stylesheet" href="/style.css?#{Time.now.to_i}"/
     title Todo
   body 
+    nav
+      - if session[:user_id]
+        a href="/todos" Todos
+        a href="/logout" Logout
+      - else
+        a href="/login" Login
+        a href="/user" Register
     ==yield
